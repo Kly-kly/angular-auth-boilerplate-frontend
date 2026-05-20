@@ -1,9 +1,8 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 import { AuthGuard } from './_helpers/auth.guard';
 import { Role } from './_models/role';
 
-const routes: Routes = [
+export const routes: Routes = [
   { path: '', redirectTo: '/account/login', pathMatch: 'full' },
   {
     path: 'account',
@@ -16,20 +15,14 @@ const routes: Routes = [
   },
   {
     path: 'profile',
-    loadChildren: () => import('./profile/profile.routes').then(m => m.PROFILE_ROUTES),
+    loadComponent: () => import('./profile/layout.component').then(m => m.LayoutComponent),
     canActivate: [AuthGuard]
   },
   {
     path: 'admin',
-    loadChildren: () => import('./admin/admin.routes').then(m => m.ADMIN_ROUTES),
+    loadComponent: () => import('./admin/layout.component').then(m => m.LayoutComponent),
     canActivate: [AuthGuard],
     data: { roles: [Role.Admin] }
   },
   { path: '**', redirectTo: '/account/login' }
 ];
-
-@NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
-})
-export class AppRoutingModule { }

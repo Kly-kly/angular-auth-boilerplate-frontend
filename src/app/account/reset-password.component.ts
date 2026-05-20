@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { first } from 'rxjs/operators';
 import { AccountService, AlertService } from '../_services';
 import { MustMatch } from '../_helpers';
@@ -12,8 +13,11 @@ enum TokenStatus {
 }
 
 @Component({
+  selector: 'app-reset-password',
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './reset-password.component.html',
-  standalone: false
+  styleUrls: ['./reset-password.component.css']
 })
 export class ResetPasswordComponent implements OnInit {
   TokenStatus = TokenStatus;
@@ -29,7 +33,7 @@ export class ResetPasswordComponent implements OnInit {
     private router: Router,
     private accountService: AccountService,
     private alertService: AlertService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.form = this.formBuilder.group({
@@ -43,7 +47,6 @@ export class ResetPasswordComponent implements OnInit {
     this.router.navigate([], { relativeTo: this.route, replaceUrl: true });
 
     this.accountService.validateResetToken(token)
-      .pipe(first())
       .subscribe({
         next: () => {
           this.token = token;
@@ -65,7 +68,6 @@ export class ResetPasswordComponent implements OnInit {
 
     this.loading = true;
     this.accountService.resetPassword(this.token!, this.f['password'].value, this.f['confirmPassword'].value)
-      .pipe(first())
       .subscribe({
         next: () => {
           this.alertService.success('Password reset successful, you can now login', { keepAfterRouteChange: true });

@@ -1,0 +1,15 @@
+<div class="container mt-4">
+  <div class="card shadow">
+    <div class="card-header bg-primary text-white">
+      <h3>Profile Information</h3>
+    </div>
+    <div class="card-body">
+      <p><strong>Title:</strong> {{account?.title || '-'}}</p>
+      <p><strong>First Name:</strong> {{account?.firstName || '-'}}</p>
+      <p><strong>Last Name:</strong> {{account?.lastName || '-'}}</p>
+      <p><strong>Email:</strong> {{account?.email || '-'}}</p>
+      <p><strong>Role:</strong> {{account?.role || '-'}}</p>
+      <a routerLink="/profile/update" class="btn btn-primary">Edit Profile</a>
+    </div>
+  </div>
+</div>

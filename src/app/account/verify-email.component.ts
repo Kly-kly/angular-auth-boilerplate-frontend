@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { first } from 'rxjs/operators';
 import { AccountService, AlertService } from '../_services';
 
@@ -9,8 +10,11 @@ enum EmailStatus {
 }
 
 @Component({
+  selector: 'app-verify-email',
+  standalone: true,
+  imports: [CommonModule, RouterModule],
   templateUrl: './verify-email.component.html',
-  standalone: false
+  styleUrls: ['./verify-email.component.css']
 })
 export class VerifyEmailComponent implements OnInit {
   EmailStatus = EmailStatus;
@@ -21,7 +25,7 @@ export class VerifyEmailComponent implements OnInit {
     private router: Router,
     private accountService: AccountService,
     private alertService: AlertService
-  ) { }
+  ) {}
 
   ngOnInit() {
     const token = this.route.snapshot.queryParams['token'];

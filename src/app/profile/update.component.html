@@ -1,0 +1,47 @@
+<div class="container mt-4">
+  <div class="card shadow">
+    <div class="card-header bg-warning">
+      <h3>Edit Profile</h3>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+          <label>Title</label>
+          <select formControlName="title" class="form-select">
+            <option value="">Select</option>
+            <option value="Mr">Mr</option>
+            <option value="Mrs">Mrs</option>
+            <option value="Ms">Ms</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label>First Name</label>
+          <input type="text" formControlName="firstName" class="form-control">
+        </div>
+        <div class="mb-3">
+          <label>Last Name</label>
+          <input type="text" formControlName="lastName" class="form-control">
+        </div>
+        <div class="mb-3">
+          <label>Email</label>
+          <input type="email" formControlName="email" class="form-control">
+        </div>
+        <div class="card bg-light mt-3">
+          <div class="card-header">Change Password</div>
+          <div class="card-body">
+            <div class="mb-3">
+              <label>New Password</label>
+              <input type="password" formControlName="password" class="form-control">
+            </div>
+            <div class="mb-3">
+              <label>Confirm Password</label>
+              <input type="password" formControlName="confirmPassword" class="form-control">
+            </div>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary" [disabled]="submitting">Save</button>
+        <a routerLink="/profile" class="btn btn-secondary ms-2">Cancel</a>
+      </form>
+    </div>
+  </div>
+</div>

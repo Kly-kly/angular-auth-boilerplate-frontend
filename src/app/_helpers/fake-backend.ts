@@ -1,3 +1,5 @@
+console.log('🔵🔵🔵 FAKE BACKEND MODULE IS LOADING! 🔵🔵🔵');
+
 import { Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpResponse, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
@@ -16,6 +18,9 @@ loadAccounts();
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    console.log('🔴🔴🔴 INTERCEPTOR CALLED! URL:', request.url);
+    console.log('🔴🔴🔴 INTERCEPTOR CALLED! METHOD:', request.method);
+    
     const { url, method, body } = request;
 
     return handleRoute();
@@ -23,8 +28,10 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     function handleRoute() {
       switch (true) {
         case url.endsWith('/accounts/authenticate') && method === 'POST':
+          console.log('🟢 Handling AUTHENTICATE');
           return authenticate();
         case url.endsWith('/accounts/register') && method === 'POST':
+          console.log('🟢 Handling REGISTER');
           return register();
         case url.endsWith('/accounts/verify-email') && method === 'POST':
           return verifyEmail();
@@ -49,6 +56,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         case url.endsWith('/accounts/revoke-token') && method === 'POST':
           return revokeToken();
         default:
+          console.log('🟡 No match, passing through to real backend');
           return next.handle(request);
       }
     }
