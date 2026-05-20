@@ -1,0 +1,16 @@
+<nav *ngIf="account" class="navbar navbar-expand-lg navbar-dark bg-dark px-3">
+  <div class="container-fluid">
+    <a class="navbar-brand" routerLink="/">Auth Boilerplate</a>
+    <div class="navbar-nav ms-auto">
+      <a class="nav-link" routerLink="/profile">Profile</a>
+      <a *ngIf="account.role === 'Admin'" class="nav-link" routerLink="/admin">Admin</a>
+      <button class="btn btn-outline-danger btn-sm ms-2" (click)="logout()">Logout</button>
+    </div>
+  </div>
+</nav>
+
+<alert></alert>
+
+<div class="container mt-3">
+  <router-outlet></router-outlet>
+</div>
