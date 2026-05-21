@@ -45,7 +45,10 @@ export class ForgotPasswordComponent implements OnInit {
         next: (response) => {
           console.log('Forgot password success:', response);
           this.alertService.success('Please check your email for password reset instructions');
-          this.router.navigate(['/account/login']);
+          setTimeout(() => {
+            this.router.navigate(['/account/login']);
+          }, 3000);
+          this.loading = false;
         },
         error: (error) => {
           console.error('Forgot password error:', error);
