@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-import { first, finalize } from 'rxjs/operators';
+import { RouterModule, Router } from '@angular/router';
 import { AccountService, AlertService } from '../_services';
 
 @Component({
@@ -20,7 +19,8 @@ export class ForgotPasswordComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private accountService: AccountService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -33,16 +33,25 @@ export class ForgotPasswordComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-    this.alertService.clear();
 
-    if (this.form.invalid) return;
+    if (this.form.invalid) {
+      return;
+    }
 
     this.loading = true;
+    
     this.accountService.forgotPassword(this.f['email'].value)
-      .pipe(first(), finalize(() => this.loading = false))
       .subscribe({
-        next: () => this.alertService.success('Please check your email for password reset instructions'),
-        error: (error: any) => this.alertService.error(error)
+        next: (response) => {
+          console.log('Forgot password success:', response);
+          this.alertService.success('Please check your email for password reset instructions');
+          this.router.navigate(['/account/login']);
+        },
+        error: (error) => {
+          console.error('Forgot password error:', error);
+          this.alertService.error(error.error?.message || 'Failed to send reset email');
+          this.loading = false;
+        }
       });
   }
 }
