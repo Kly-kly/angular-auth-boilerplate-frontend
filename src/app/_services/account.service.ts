@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, finalize } from 'rxjs/operators';
 import { Account } from '../_models';
+import { environment } from '../environments/environment';  // ← ADD THIS LINE
 
 @Injectable({ providedIn: 'root' })
 export class AccountService {
@@ -23,7 +24,7 @@ export class AccountService {
   }
 
   login(email: string, password: string) {
-    return this.http.post<any>(`/accounts/authenticate`, { email, password }, { withCredentials: true })
+    return this.http.post<any>(`${environment.apiUrl}/accounts/authenticate`, { email, password }, { withCredentials: true })
       .pipe(map(account => {
         this.accountSubject.next(account);
         this.startRefreshTokenTimer();
@@ -32,14 +33,14 @@ export class AccountService {
   }
 
   logout() {
-    this.http.post<any>(`/accounts/revoke-token`, {}, { withCredentials: true }).subscribe();
+    this.http.post<any>(`${environment.apiUrl}/accounts/revoke-token`, {}, { withCredentials: true }).subscribe();
     this.stopRefreshTokenTimer();
     this.accountSubject.next(null);
     this.router.navigate(['/account/login']);
   }
 
   refreshToken() {
-    return this.http.post<any>(`/accounts/refresh-token`, {}, { withCredentials: true })
+    return this.http.post<any>(`${environment.apiUrl}/accounts/refresh-token`, {}, { withCredentials: true })
       .pipe(map(account => {
         this.accountSubject.next(account);
         this.startRefreshTokenTimer();
@@ -48,39 +49,39 @@ export class AccountService {
   }
 
   register(account: Account) {
-    return this.http.post(`/accounts/register`, account);
+    return this.http.post(`${environment.apiUrl}/accounts/register`, account);  // ← CHANGE THIS LINE
   }
 
   verifyEmail(token: string) {
-    return this.http.post(`/accounts/verify-email`, { token });
+    return this.http.post(`${environment.apiUrl}/accounts/verify-email`, { token });  // ← CHANGE THIS
   }
 
   forgotPassword(email: string) {
-    return this.http.post(`/accounts/forgot-password`, { email });
+    return this.http.post(`${environment.apiUrl}/accounts/forgot-password`, { email });  // ← CHANGE THIS
   }
 
   validateResetToken(token: string) {
-    return this.http.post(`/accounts/validate-reset-token`, { token });
+    return this.http.post(`${environment.apiUrl}/accounts/validate-reset-token`, { token });  // ← CHANGE THIS
   }
 
   resetPassword(token: string, password: string, confirmPassword: string) {
-    return this.http.post(`/accounts/reset-password`, { token, password, confirmPassword });
+    return this.http.post(`${environment.apiUrl}/accounts/reset-password`, { token, password, confirmPassword });  // ← CHANGE THIS
   }
 
   getAll() {
-    return this.http.get<Account[]>(`/accounts`);
+    return this.http.get<Account[]>(`${environment.apiUrl}/accounts`);  // ← CHANGE THIS
   }
 
   getById(id: string) {
-    return this.http.get<Account>(`/accounts/${id}`);
+    return this.http.get<Account>(`${environment.apiUrl}/accounts/${id}`);  // ← CHANGE THIS
   }
 
   create(params: any) {
-    return this.http.post(`/accounts`, params);
+    return this.http.post(`${environment.apiUrl}/accounts`, params);  // ← CHANGE THIS
   }
 
   update(id: string, params: any) {
-    return this.http.put(`/accounts/${id}`, params)
+    return this.http.put(`${environment.apiUrl}/accounts/${id}`, params)  // ← CHANGE THIS
       .pipe(map((account: any) => {
         if (account.id === this.accountValue?.id) {
           account = { ...this.accountValue, ...account };
@@ -91,7 +92,7 @@ export class AccountService {
   }
 
   delete(id: string) {
-    return this.http.delete(`/accounts/${id}`)
+    return this.http.delete(`${environment.apiUrl}/accounts/${id}`)  // ← CHANGE THIS
       .pipe(finalize(() => {
         if (id === this.accountValue?.id) this.logout();
       }));
