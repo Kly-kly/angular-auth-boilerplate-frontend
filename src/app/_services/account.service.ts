@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, finalize } from 'rxjs/operators';
 import { Account } from '../_models';
-import { environment } from '../environments/environment';  // ← ADD THIS LINE
+import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class AccountService {
@@ -49,39 +49,39 @@ export class AccountService {
   }
 
   register(account: Account) {
-    return this.http.post(`${environment.apiUrl}/accounts/register`, account);  // ← CHANGE THIS LINE
+    return this.http.post(`${environment.apiUrl}/accounts/register`, account);
   }
 
   verifyEmail(token: string) {
-    return this.http.post(`${environment.apiUrl}/accounts/verify-email`, { token });  // ← CHANGE THIS
+    return this.http.post(`${environment.apiUrl}/accounts/verify-email`, { token });
   }
 
   forgotPassword(email: string) {
-    return this.http.post(`${environment.apiUrl}/accounts/forgot-password`, { email });  // ← CHANGE THIS
+    return this.http.post(`${environment.apiUrl}/accounts/forgot-password`, { email });
   }
 
   validateResetToken(token: string) {
-    return this.http.post(`${environment.apiUrl}/accounts/validate-reset-token`, { token });  // ← CHANGE THIS
+    return this.http.post(`${environment.apiUrl}/accounts/validate-reset-token`, { token });
   }
 
   resetPassword(token: string, password: string, confirmPassword: string) {
-    return this.http.post(`${environment.apiUrl}/accounts/reset-password`, { token, password, confirmPassword });  // ← CHANGE THIS
+    return this.http.post(`${environment.apiUrl}/accounts/reset-password`, { token, password, confirmPassword });
   }
 
   getAll() {
-    return this.http.get<Account[]>(`${environment.apiUrl}/accounts`);  // ← CHANGE THIS
+    return this.http.get<Account[]>(`${environment.apiUrl}/accounts`);
   }
 
   getById(id: string) {
-    return this.http.get<Account>(`${environment.apiUrl}/accounts/${id}`);  // ← CHANGE THIS
+    return this.http.get<Account>(`${environment.apiUrl}/accounts/${id}`);
   }
 
   create(params: any) {
-    return this.http.post(`${environment.apiUrl}/accounts`, params);  // ← CHANGE THIS
+    return this.http.post(`${environment.apiUrl}/accounts`, params);
   }
 
   update(id: string, params: any) {
-    return this.http.put(`${environment.apiUrl}/accounts/${id}`, params)  // ← CHANGE THIS
+    return this.http.put(`${environment.apiUrl}/accounts/${id}`, params)
       .pipe(map((account: any) => {
         if (account.id === this.accountValue?.id) {
           account = { ...this.accountValue, ...account };
@@ -92,7 +92,7 @@ export class AccountService {
   }
 
   delete(id: string) {
-    return this.http.delete(`${environment.apiUrl}/accounts/${id}`)  // ← CHANGE THIS
+    return this.http.delete(`${environment.apiUrl}/accounts/${id}`)
       .pipe(finalize(() => {
         if (id === this.accountValue?.id) this.logout();
       }));
