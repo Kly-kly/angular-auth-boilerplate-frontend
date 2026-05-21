@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
@@ -31,7 +31,8 @@ export class ResetPasswordComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private accountService: AccountService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private cdr: ChangeDetectorRef  // ✅ Add this
   ) {}
 
   ngOnInit() {
@@ -50,6 +51,7 @@ export class ResetPasswordComponent implements OnInit {
 
     if (!token) {
       this.tokenStatus = TokenStatus.Invalid;
+      this.cdr.detectChanges();  // ✅ Force change detection
       return;
     }
 
@@ -59,10 +61,13 @@ export class ResetPasswordComponent implements OnInit {
           console.log('Token is valid');
           this.token = token;
           this.tokenStatus = TokenStatus.Valid;
+          this.cdr.detectChanges();  // ✅ Force change detection to update UI
+          console.log('TokenStatus changed to:', this.tokenStatus);
         },
         error: (error) => {
           console.error('Token validation error:', error);
           this.tokenStatus = TokenStatus.Invalid;
+          this.cdr.detectChanges();  // ✅ Force change detection
         }
       });
   }
@@ -86,6 +91,7 @@ export class ResetPasswordComponent implements OnInit {
           console.error('Reset password error:', error);
           this.alertService.error(error.error?.message || 'Failed to reset password');
           this.loading = false;
+          this.cdr.detectChanges();  // ✅ Force change detection
         }
       });
   }
