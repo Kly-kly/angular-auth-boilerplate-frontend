@@ -2,9 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { first } from 'rxjs/operators';
 import { AccountService, AlertService } from '../_services';
-import { MustMatch } from '../_helpers';
+import { MustMatch } from '../_helpers/must-match.validator';
 
 enum TokenStatus {
   Validating,
@@ -44,15 +43,25 @@ export class ResetPasswordComponent implements OnInit {
     });
 
     const token = this.route.snapshot.queryParams['token'];
+    console.log('Token from URL:', token);
+    
+    // Remove token from URL to keep it clean
     this.router.navigate([], { relativeTo: this.route, replaceUrl: true });
+
+    if (!token) {
+      this.tokenStatus = TokenStatus.Invalid;
+      return;
+    }
 
     this.accountService.validateResetToken(token)
       .subscribe({
         next: () => {
+          console.log('Token is valid');
           this.token = token;
           this.tokenStatus = TokenStatus.Valid;
         },
-        error: () => {
+        error: (error) => {
+          console.error('Token validation error:', error);
           this.tokenStatus = TokenStatus.Invalid;
         }
       });
@@ -74,7 +83,8 @@ export class ResetPasswordComponent implements OnInit {
           this.router.navigate(['/account/login']);
         },
         error: (error: any) => {
-          this.alertService.error(error);
+          console.error('Reset password error:', error);
+          this.alertService.error(error.error?.message || 'Failed to reset password');
           this.loading = false;
         }
       });
