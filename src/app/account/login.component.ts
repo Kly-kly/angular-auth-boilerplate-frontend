@@ -44,32 +44,43 @@ export class LoginComponent implements OnInit {
     
     this.accountService.login(this.f['email'].value, this.f['password'].value)
       .subscribe({
-        next: () => {
-          // Login successful
+        next: (response) => {
+          console.log('Login successful:', response);
           this.router.navigate(['/home']);
         },
-        error: (error) => {
-          console.error('Login error:', error);
+        error: (err) => {
+          console.log('=== LOGIN ERROR DEBUG ===');
+          console.log('Status:', err.status);
+          console.log('Error object:', err);
+          console.log('Error error property:', err.error);
           
-          // Show user-friendly error message
-          let errorMessage = 'Login failed';
+          // Stop loading
+          this.loading = false;
           
-          if (error.status === 401) {
-            if (error.error?.message === 'Invalid credentials') {
-              errorMessage = 'Invalid email or password. Please check your credentials and try again.';
-            } else if (error.error?.message === 'Please verify your email first') {
-              errorMessage = 'Please verify your email address before logging in. Check your inbox for the verification link.';
+          // Extract error message
+          let errorMessage = 'Login failed. Please try again.';
+          
+          if (err.status === 401) {
+            // Check if error.error has a message property
+            if (err.error && err.error.message) {
+              errorMessage = err.error.message;
+              // Make it more user-friendly
+              if (errorMessage === 'Invalid credentials') {
+                errorMessage = 'Invalid email or password. Please check your credentials and try again.';
+              }
             } else {
-              errorMessage = error.error?.message || 'Invalid email or password. Please try again.';
+              errorMessage = 'Invalid email or password. Please try again.';
             }
-          } else if (error.status === 0) {
-            errorMessage = 'Cannot connect to server. Please try again later.';
-          } else {
-            errorMessage = error.error?.message || 'Login failed. Please try again.';
+          } else if (err.status === 0) {
+            errorMessage = 'Cannot connect to server. Please check your internet connection.';
+          } else if (err.error && typeof err.error === 'string') {
+            errorMessage = err.error;
+          } else if (err.message) {
+            errorMessage = err.message;
           }
           
+          console.log('Showing error message:', errorMessage);
           this.alertService.error(errorMessage);
-          this.loading = false;
         }
       });
   }
