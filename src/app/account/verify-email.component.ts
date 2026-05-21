@@ -19,6 +19,7 @@ enum EmailStatus {
 export class VerifyEmailComponent implements OnInit {
   EmailStatus = EmailStatus;
   emailStatus = EmailStatus.Verifying;
+  errorMessage = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -28,17 +29,32 @@ export class VerifyEmailComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    const token = this.route.snapshot.queryParams['token'];
-    this.router.navigate([], { relativeTo: this.route, replaceUrl: true });
+    // Get token from URL query parameters
+    const token = this.route.snapshot.queryParamMap.get('token');
+    
+    console.log('Token from URL:', token);
+    console.log('Full URL:', window.location.href);
+    
+    // Clear token from URL for cleaner look
+    this.router.navigate([], { relativeTo: this.route, queryParams: {}, replaceUrl: true });
+
+    if (!token) {
+      this.errorMessage = 'No verification token found. Please use the link from your email.';
+      this.emailStatus = EmailStatus.Failed;
+      return;
+    }
 
     this.accountService.verifyEmail(token)
       .pipe(first())
       .subscribe({
-        next: () => {
-          this.alertService.success('Verification successful, you can now login', { keepAfterRouteChange: true });
+        next: (response) => {
+          console.log('Verification success:', response);
+          this.alertService.success('Verification successful! You can now login.', { keepAfterRouteChange: true });
           this.router.navigate(['/account/login']);
         },
-        error: () => {
+        error: (error) => {
+          console.error('Verification error:', error);
+          this.errorMessage = error.error?.message || 'Verification failed. The link may be invalid or expired.';
           this.emailStatus = EmailStatus.Failed;
         }
       });
