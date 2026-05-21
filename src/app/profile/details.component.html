@@ -3,13 +3,22 @@
     <div class="card-header bg-primary text-white">
       <h3>Profile Information</h3>
     </div>
-    <div class="card-body">
-      <p><strong>Title:</strong> {{account?.title || '-'}}</p>
-      <p><strong>First Name:</strong> {{account?.firstName || '-'}}</p>
-      <p><strong>Last Name:</strong> {{account?.lastName || '-'}}</p>
-      <p><strong>Email:</strong> {{account?.email || '-'}}</p>
-      <p><strong>Role:</strong> {{account?.role || '-'}}</p>
-      <a routerLink="/profile/update" class="btn btn-primary">Edit Profile</a>
+    <div class="card-body" *ngIf="account; else noData">
+      <p><strong>Title:</strong> {{account.title || '-'}}</p>
+      <p><strong>First Name:</strong> {{account.firstName || '-'}}</p>
+      <p><strong>Last Name:</strong> {{account.lastName || '-'}}</p>
+      <p><strong>Email:</strong> {{account.email || '-'}}</p>
+      <p><strong>Role:</strong> {{account.role || '-'}}</p>
+      
+      <div class="d-flex gap-2 mt-3">
+        <a routerLink="/profile/update" class="btn btn-primary">Edit Profile</a>
+        <button class="btn btn-danger" (click)="deleteAccount()">Delete Account</button>
+      </div>
     </div>
+    <ng-template #noData>
+      <div class="card-body">
+        <div class="alert alert-info">Loading profile data...</div>
+      </div>
+    </ng-template>
   </div>
 </div>
