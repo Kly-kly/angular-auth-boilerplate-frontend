@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AccountService, AlertService } from '../../_services';
@@ -17,7 +17,8 @@ export class ListComponent implements OnInit {
 
   constructor(
     private accountService: AccountService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private cdr: ChangeDetectorRef  // ✅ Add this
   ) {}
 
   ngOnInit() {
@@ -29,11 +30,11 @@ export class ListComponent implements OnInit {
     console.log('🟡 loadAccounts started');
     this.loading = true;
     this.errorMessage = '';
+    this.cdr.detectChanges();  // ✅ Force update
     
     const url = 'https://klykly-auth-backend.onrender.com/accounts';
     console.log('📡 Fetching from URL:', url);
     
-    // Use fetch directly
     fetch(url, {
       method: 'GET',
       headers: {
@@ -49,8 +50,6 @@ export class ListComponent implements OnInit {
     })
     .then((data: any) => {
       console.log('✅ Data parsed:', data);
-      console.log('📊 Data type:', typeof data);
-      console.log('📊 Is array?', Array.isArray(data));
       
       if (Array.isArray(data)) {
         this.accounts = data;
@@ -62,12 +61,14 @@ export class ListComponent implements OnInit {
       
       console.log('📊 Accounts count:', this.accounts.length);
       this.loading = false;
+      this.cdr.detectChanges();  // ✅ Force update after data is set
       this.errorMessage = '';
     })
     .catch((error) => {
       console.error('❌ Fetch error:', error);
       this.errorMessage = error.message;
       this.loading = false;
+      this.cdr.detectChanges();  // ✅ Force update on error
     });
   }
 
@@ -77,6 +78,7 @@ export class ListComponent implements OnInit {
         next: () => {
           this.accounts = this.accounts.filter(x => x.id !== id);
           this.alertService.success('Account deleted');
+          this.cdr.detectChanges();  // ✅ Force update
         },
         error: (error) => {
           console.error('Delete error:', error);
