@@ -1,6 +1,6 @@
-<!-- Test message at the top -->
-<div style="background: red; color: white; padding: 10px; text-align: center; font-weight: bold;">
-  🔴 LIST COMPONENT IS LOADED - If you see this, component is working!
+<!-- Clear visual indicator that component is loading -->
+<div style="background-color: #d4edda; color: #155724; padding: 8px; text-align: center; font-weight: bold; border-bottom: 1px solid #c3e6cb;">
+  ✅ Account Management Component Loaded Successfully
 </div>
 
 <div class="card shadow">
@@ -9,36 +9,34 @@
     <a routerLink="add" class="btn btn-success btn-sm">Create Account</a>
   </div>
   <div class="card-body">
-    <!-- Show all errors on page -->
-    <div style="background: #f8d7da; color: #721c24; padding: 10px; margin-bottom: 10px; border-radius: 5px; display: block;">
+    <!-- Debug Information Box -->
+    <div class="alert alert-secondary small" role="alert">
       <strong>Debug Info:</strong><br>
-      Loading: {{loading}}<br>
-      Accounts Count: {{accounts.length}}<br>
-      Error: {{errorMessage}}<br>
-      API URL: {{apiUrl}}
+      - Loading: {{ loading }}<br>
+      - Accounts Count: {{ accounts.length }}<br>
+      - Error: {{ errorMessage || 'None' }}
     </div>
-    
+
+    <!-- Loading Spinner -->
     <div *ngIf="loading" class="text-center py-4">
       <div class="spinner-border text-primary" role="status">
         <span class="visually-hidden">Loading...</span>
       </div>
-      <p class="mt-2">Loading accounts from API...</p>
+      <p class="mt-2">Loading accounts from server...</p>
     </div>
-    
-    <div *ngIf="!loading && accounts.length === 0 && !errorMessage" class="text-center py-4">
-      <div class="alert alert-warning">
-        No accounts found. Click "Create Account" to add users.
-      </div>
+
+    <!-- Error Message -->
+    <div *ngIf="!loading && errorMessage" class="alert alert-danger">
+      <strong>Error:</strong> {{ errorMessage }}
     </div>
-    
-    <div *ngIf="!loading && accounts.length === 0 && errorMessage" class="text-center py-4">
-      <div class="alert alert-danger">
-        <strong>Error loading accounts:</strong><br>
-        {{errorMessage}}
-      </div>
+
+    <!-- No Accounts Message -->
+    <div *ngIf="!loading && !errorMessage && accounts.length === 0" class="alert alert-warning text-center">
+      No accounts found. Click "Create Account" to add a user.
     </div>
-    
-    <table class="table table-striped" *ngIf="!loading && accounts.length > 0">
+
+    <!-- Accounts Table -->
+    <table class="table table-striped" *ngIf="!loading && !errorMessage && accounts.length > 0">
       <thead>
         <tr>
           <th>Name</th>
@@ -49,18 +47,14 @@
       </thead>
       <tbody>
         <tr *ngFor="let account of accounts">
-          <td>{{account.title}} {{account.firstName}} {{account.lastName}}</td>
-          <td>{{account.email}}</td>
-          <td>
-            <span class="badge" [ngClass]="account.role === 'Admin' ? 'bg-danger' : 'bg-secondary'">
-              {{account.role}}
-            </span>
-          </td>
+          <td>{{ account.title }} {{ account.firstName }} {{ account.lastName }}</td>
+          <td>{{ account.email }}</td>
+          <td><span class="badge" [ngClass]="account.role === 'Admin' ? 'bg-danger' : 'bg-secondary'">{{ account.role }}</span></td>
           <td>
             <a [routerLink]="['edit', account.id]" class="btn btn-sm btn-primary me-1">Edit</a>
             <button (click)="deleteAccount(account.id)" class="btn btn-sm btn-danger">Delete</button>
-          </td>
-        </tr>
+           </td>
+         </tr>
       </tbody>
     </table>
   </div>
