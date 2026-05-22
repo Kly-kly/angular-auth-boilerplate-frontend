@@ -1,24 +1,40 @@
+<!-- Test message at the top -->
+<div style="background: red; color: white; padding: 10px; text-align: center; font-weight: bold;">
+  🔴 LIST COMPONENT IS LOADED - If you see this, component is working!
+</div>
+
 <div class="card shadow">
   <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
     <h3 class="mb-0">Account Management</h3>
     <a routerLink="add" class="btn btn-success btn-sm">Create Account</a>
   </div>
   <div class="card-body">
-    <!-- Debug info -->
-    <div class="alert alert-info small">
-      Debug: loading={{loading}}, accounts.length={{accounts.length}}
+    <!-- Show all errors on page -->
+    <div style="background: #f8d7da; color: #721c24; padding: 10px; margin-bottom: 10px; border-radius: 5px; display: block;">
+      <strong>Debug Info:</strong><br>
+      Loading: {{loading}}<br>
+      Accounts Count: {{accounts.length}}<br>
+      Error: {{errorMessage}}<br>
+      API URL: {{apiUrl}}
     </div>
     
     <div *ngIf="loading" class="text-center py-4">
       <div class="spinner-border text-primary" role="status">
         <span class="visually-hidden">Loading...</span>
       </div>
-      <p class="mt-2">Loading accounts...</p>
+      <p class="mt-2">Loading accounts from API...</p>
     </div>
     
-    <div *ngIf="!loading && accounts.length === 0" class="text-center py-4">
+    <div *ngIf="!loading && accounts.length === 0 && !errorMessage" class="text-center py-4">
       <div class="alert alert-warning">
         No accounts found. Click "Create Account" to add users.
+      </div>
+    </div>
+    
+    <div *ngIf="!loading && accounts.length === 0 && errorMessage" class="text-center py-4">
+      <div class="alert alert-danger">
+        <strong>Error loading accounts:</strong><br>
+        {{errorMessage}}
       </div>
     </div>
     

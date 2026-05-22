@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { AccountService, AlertService } from '../../_services';
 import { environment } from '../../../environments/environment';
 
@@ -15,26 +15,34 @@ import { environment } from '../../../environments/environment';
 export class ListComponent implements OnInit {
   accounts: any[] = [];
   loading = false;
+  errorMessage = '';
+  apiUrl = '';
 
   constructor(
     private http: HttpClient,
     private accountService: AccountService,
     private alertService: AlertService
-  ) {}
+  ) {
+    this.apiUrl = `${environment.apiUrl}/accounts`;
+    console.log('🔵 Constructor - API URL:', this.apiUrl);
+  }
 
   ngOnInit() {
+    console.log('🟢 ngOnInit called');
     this.loadAccounts();
   }
 
   loadAccounts() {
+    console.log('🟡 loadAccounts started');
     this.loading = true;
-    console.log('Loading accounts from:', `${environment.apiUrl}/accounts`);
+    this.errorMessage = '';
     
-    // Direct HTTP call to bypass any service issues
-    this.http.get(`${environment.apiUrl}/accounts`).subscribe({
+    const url = `${environment.apiUrl}/accounts`;
+    console.log('📡 Calling URL:', url);
+    
+    this.http.get(url).subscribe({
       next: (data: any) => {
-        console.log('Accounts received:', data);
-        // Handle both array and single object
+        console.log('✅ Success! Data:', data);
         if (Array.isArray(data)) {
           this.accounts = data;
         } else if (data && typeof data === 'object') {
@@ -42,12 +50,12 @@ export class ListComponent implements OnInit {
         } else {
           this.accounts = [];
         }
-        console.log('Accounts count:', this.accounts.length);
+        console.log('📊 Accounts count:', this.accounts.length);
         this.loading = false;
       },
-      error: (error) => {
-        console.error('Error loading accounts:', error);
-        this.alertService.error('Failed to load accounts: ' + (error.message || 'Unknown error'));
+      error: (error: HttpErrorResponse) => {
+        console.error('❌ Error:', error);
+        this.errorMessage = `Status: ${error.status} - ${error.message}`;
         this.loading = false;
       }
     });
