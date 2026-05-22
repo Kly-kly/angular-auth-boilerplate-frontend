@@ -1,22 +1,48 @@
 <div class="card shadow">
-  <div class="card-header bg-primary text-white">
-    <h3>Account Management</h3>
-    <a routerLink="add" class="btn btn-success float-end">Create Account</a>
+  <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+    <h3 class="mb-0">Account Management</h3>
+    <a routerLink="add" class="btn btn-success btn-sm">Create Account</a>
   </div>
   <div class="card-body">
-    <div *ngIf="loading" class="text-center">Loading...</div>
-    <table class="table table-striped">
+    <!-- Debug info -->
+    <div class="alert alert-info small">
+      Debug: loading={{loading}}, accounts.length={{accounts.length}}
+    </div>
+    
+    <div *ngIf="loading" class="text-center py-4">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p class="mt-2">Loading accounts...</p>
+    </div>
+    
+    <div *ngIf="!loading && accounts.length === 0" class="text-center py-4">
+      <div class="alert alert-warning">
+        No accounts found. Click "Create Account" to add users.
+      </div>
+    </div>
+    
+    <table class="table table-striped" *ngIf="!loading && accounts.length > 0">
       <thead>
-        <tr><th>Name</th><th>Email</th><th>Role</th><th>Actions</th></tr>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Actions</th>
+        </tr>
       </thead>
       <tbody>
         <tr *ngFor="let account of accounts">
           <td>{{account.title}} {{account.firstName}} {{account.lastName}}</td>
           <td>{{account.email}}</td>
-          <td>{{account.role}}</td>
           <td>
-            <a [routerLink]="['edit', account.id]" class="btn btn-sm btn-primary">Edit</a>
-            <button (click)="deleteAccount(account.id)" class="btn btn-sm btn-danger ms-1">Delete</button>
+            <span class="badge" [ngClass]="account.role === 'Admin' ? 'bg-danger' : 'bg-secondary'">
+              {{account.role}}
+            </span>
+          </td>
+          <td>
+            <a [routerLink]="['edit', account.id]" class="btn btn-sm btn-primary me-1">Edit</a>
+            <button (click)="deleteAccount(account.id)" class="btn btn-sm btn-danger">Delete</button>
           </td>
         </tr>
       </tbody>
