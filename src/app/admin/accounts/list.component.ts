@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { AccountService, AlertService } from '../../_services';
 import { environment } from '../../../environments/environment';
 
@@ -16,33 +15,36 @@ export class ListComponent implements OnInit {
   accounts: any[] = [];
   loading = false;
   errorMessage = '';
-  apiUrl = '';
 
   constructor(
-    private http: HttpClient,
     private accountService: AccountService,
     private alertService: AlertService
-  ) {
-    this.apiUrl = `${environment.apiUrl}/accounts`;
-    console.log('🔵 Constructor - API URL:', this.apiUrl);
-  }
+  ) {}
 
   ngOnInit() {
-    console.log('🟢 ngOnInit called');
+    console.log('ListComponent initialized');
     this.loadAccounts();
   }
 
   loadAccounts() {
-    console.log('🟡 loadAccounts started');
+    console.log('loadAccounts called');
     this.loading = true;
     this.errorMessage = '';
     
     const url = `${environment.apiUrl}/accounts`;
-    console.log('📡 Calling URL:', url);
+    console.log('Fetching from URL:', url);
     
-    this.http.get(url).subscribe({
-      next: (data: any) => {
-        console.log('✅ Success! Data:', data);
+    // Use fetch instead of HttpClient to bypass any interceptor issues
+    fetch(url)
+      .then(response => {
+        console.log('Response status:', response.status);
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data: any) => {
+        console.log('Data received:', data);
         if (Array.isArray(data)) {
           this.accounts = data;
         } else if (data && typeof data === 'object') {
@@ -50,15 +52,14 @@ export class ListComponent implements OnInit {
         } else {
           this.accounts = [];
         }
-        console.log('📊 Accounts count:', this.accounts.length);
+        console.log('Accounts count:', this.accounts.length);
         this.loading = false;
-      },
-      error: (error: HttpErrorResponse) => {
-        console.error('❌ Error:', error);
-        this.errorMessage = `Status: ${error.status} - ${error.message}`;
+      })
+      .catch((error) => {
+        console.error('Fetch error:', error);
+        this.errorMessage = error.message;
         this.loading = false;
-      }
-    });
+      });
   }
 
   deleteAccount(id: string) {
