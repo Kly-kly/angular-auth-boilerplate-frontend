@@ -1,6 +1,5 @@
-<!-- Clear visual indicator that component is loading -->
-<div style="background-color: #d4edda; color: #155724; padding: 8px; text-align: center; font-weight: bold; border-bottom: 1px solid #c3e6cb;">
-  ✅ Account Management Component Loaded Successfully
+<div style="background-color: #d4edda; color: #155724; padding: 8px; text-align: center; font-weight: bold;">
+  ✅ Account Management Component Loaded
 </div>
 
 <div class="card shadow">
@@ -23,6 +22,7 @@
         <span class="visually-hidden">Loading...</span>
       </div>
       <p class="mt-2">Loading accounts from server...</p>
+      <p class="small text-muted">If this takes too long, check the browser console (F12) for errors.</p>
     </div>
 
     <!-- Error Message -->
@@ -53,8 +53,8 @@
           <td>
             <a [routerLink]="['edit', account.id]" class="btn btn-sm btn-primary me-1">Edit</a>
             <button (click)="deleteAccount(account.id)" class="btn btn-sm btn-danger">Delete</button>
-           </td>
-         </tr>
+          </td>
+        </tr>
       </tbody>
     </table>
   </div>
