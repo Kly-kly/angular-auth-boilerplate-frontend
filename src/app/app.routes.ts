@@ -20,7 +20,7 @@ export const routes: Routes = [
   },
   {
     path: 'admin',
-    loadComponent: () => import('./admin/layout.component').then(m => m.LayoutComponent),
+    loadChildren: () => import('./admin/admin.routes').then(m => m.ADMIN_ROUTES),  // ← CHANGE THIS
     canActivate: [AuthGuard],
     data: { roles: [Role.Admin] }
   },
