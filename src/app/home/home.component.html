@@ -10,7 +10,7 @@
           <p class="lead">You're logged in!</p>
           <hr>
           <a routerLink="/profile" class="btn btn-primary me-2">View Profile</a>
-          <!-- Admin Panel button removed -->
+          <a *ngIf="account?.role === 'Admin'" routerLink="/admin" class="btn btn-warning">Admin Panel</a>
         </div>
       </div>
     </div>
