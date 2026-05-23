@@ -36,7 +36,6 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
     this.errorMessage = '';
-    this.alertService.clear();
 
     if (this.form.invalid) {
       return;
@@ -47,20 +46,25 @@ export class LoginComponent implements OnInit {
     this.accountService.login(this.f['email'].value, this.f['password'].value)
       .subscribe({
         next: (response) => {
-          console.log('Login successful:', response);
+          console.log('Login success:', response);
           this.loading = false;
           this.router.navigate(['/home']);
         },
         error: (error) => {
-          console.error('Login error:', error);
+          console.log('Login error:', error);
           this.loading = false;
           
-          // Simple error message
-          if (error.status === 401) {
-            this.errorMessage = '❌ Invalid email or password. Please try again.';
+          // Set error message based on backend response
+          if (error.error && error.error.message) {
+            this.errorMessage = error.error.message;
+          } else if (error.status === 401) {
+            this.errorMessage = 'Invalid email or password. Please try again.';
           } else {
-            this.errorMessage = '❌ Login failed. Please try again.';
+            this.errorMessage = 'Login failed. Please try again.';
           }
+          
+          // Also show via alert service
+          this.alertService.error(this.errorMessage);
         }
       });
   }

@@ -7,8 +7,8 @@
         </div>
         <div class="card-body">
           <!-- Error message display -->
-          <div *ngIf="errorMessage" class="alert alert-danger text-center mb-3">
-            {{ errorMessage }}
+          <div *ngIf="errorMessage" class="alert alert-danger text-center" role="alert">
+            <strong>Error!</strong> {{ errorMessage }}
           </div>
 
           <form [formGroup]="form" (ngSubmit)="onSubmit()">
@@ -22,8 +22,7 @@
                 placeholder="Enter your email"
               >
               <div class="invalid-feedback" *ngIf="submitted && f['email'].invalid">
-                <span *ngIf="f['email'].errors?.['required']">Email is required</span>
-                <span *ngIf="f['email'].errors?.['email']">Please enter a valid email address</span>
+                Valid email is required
               </div>
             </div>
 
@@ -37,13 +36,13 @@
                 placeholder="Enter your password"
               >
               <div class="invalid-feedback" *ngIf="submitted && f['password'].invalid">
-                <span *ngIf="f['password'].errors?.['required']">Password is required</span>
+                Password is required
               </div>
             </div>
 
             <div class="d-grid">
-              <button type="submit" class="btn btn-primary" [disabled]="loading">
-                <span *ngIf="loading" class="spinner-border spinner-border-sm me-1"></span>
+              <button type="submit" class="btn btn-primary btn-lg" [disabled]="loading">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
                 Login
               </button>
             </div>
