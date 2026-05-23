@@ -1,17 +1,35 @@
-<nav *ngIf="account" class="navbar navbar-expand-lg navbar-dark bg-dark px-3">
-  <div class="container-fluid">
-    <a class="navbar-brand" routerLink="/">Auth Boilerplate</a>
-    <div class="navbar-nav ms-auto">
-      <a class="nav-link" routerLink="/home">Home</a>
-      <a class="nav-link" routerLink="/profile">Profile</a>
-      <a *ngIf="account?.role === 'Admin'" class="nav-link" routerLink="/admin">Admin</a>
-      <button class="btn btn-outline-danger btn-sm ms-2" (click)="logout()">Logout</button>
+<nav *ngIf="account" class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid px-4">
+    <!-- Brand on LEFT -->
+    <a class="navbar-brand fw-bold" routerLink="/home">Auth Boilerplate</a>
+    
+    <!-- Toggle button for mobile -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    
+    <!-- Navigation links on RIGHT -->
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/home">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/profile">Profile</a>
+        </li>
+        <li class="nav-item" *ngIf="account?.role === 'Admin'">
+          <a class="nav-link" routerLink="/admin">Admin</a>
+        </li>
+        <li class="nav-item">
+          <button class="btn btn-outline-light btn-sm" (click)="logout()">Logout</button>
+        </li>
+      </ul>
     </div>
   </div>
 </nav>
 
 <alert></alert>
 
-<div class="container mt-3">
+<div class="container mt-4">
   <router-outlet></router-outlet>
 </div>
