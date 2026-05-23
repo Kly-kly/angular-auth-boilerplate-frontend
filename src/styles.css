@@ -22,16 +22,19 @@ body {
   min-height: 100vh;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   padding: 40px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* Main Container - Make it wider */
+/* Main Container - MUCH WIDER */
 .container {
-  max-width: 560px !important;
-  margin: 0 auto !important;
+  max-width: 900px !important;
   width: 100% !important;
+  margin: 0 auto !important;
 }
 
-/* Card Styles - Larger and more modern */
+/* Card Styles - Wider horizontally */
 .card {
   border: none !important;
   border-radius: 32px !important;
@@ -44,7 +47,7 @@ body {
 .card-header {
   background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-main) 100%) !important;
   color: var(--text-light) !important;
-  padding: 40px 40px 32px !important;
+  padding: 32px 48px !important;
   border-bottom: none !important;
   text-align: center !important;
 }
@@ -65,10 +68,10 @@ body {
 }
 
 .card-body {
-  padding: 40px !important;
+  padding: 48px !important;
 }
 
-/* Form Controls - Larger padding */
+/* Form Controls - Full width inside the wide card */
 input, select, textarea, .form-control, .form-select {
   width: 100% !important;
   border: 2px solid var(--input-border) !important;
@@ -86,7 +89,7 @@ input:focus, select:focus, textarea:focus, .form-control:focus, .form-select:foc
   outline: none !important;
 }
 
-/* Labels - Larger */
+/* Labels */
 label, .form-label {
   font-weight: 600 !important;
   color: #1e293b !important;
@@ -95,7 +98,7 @@ label, .form-label {
   font-size: 15px !important;
 }
 
-/* Buttons - Larger and modern */
+/* Buttons */
 button, .btn, .btn-primary {
   background: linear-gradient(135deg, var(--primary-main) 0%, var(--primary-light) 100%) !important;
   border: none !important;
@@ -115,40 +118,53 @@ button:hover, .btn:hover, .btn-primary:hover {
   box-shadow: 0 8px 20px rgba(13, 71, 161, 0.3) !important;
 }
 
-button:active, .btn:active {
-  transform: translateY(0) !important;
-}
-
-button:disabled, .btn:disabled {
-  background: #94a3b8 !important;
-  transform: none !important;
-  cursor: not-allowed !important;
-}
-
-/* Secondary button */
-.btn-secondary {
-  background: #f1f5f9 !important;
-  color: #475569 !important;
-}
-
-.btn-secondary:hover {
-  background: #e2e8f0 !important;
-  transform: translateY(-2px) !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
-}
-
 /* Links */
-a {
+.text-center a {
   color: var(--primary-main) !important;
   text-decoration: none !important;
-  transition: all 0.2s ease !important;
   font-weight: 500 !important;
   font-size: 14px !important;
+  margin: 0 8px !important;
 }
 
-a:hover {
+.text-center a:hover {
   color: var(--primary-dark) !important;
   text-decoration: underline !important;
+}
+
+/* Row and Columns - For register page with multiple fields */
+.row {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  margin: 0 -12px !important;
+}
+
+[class*="col-"] {
+  padding: 0 12px !important;
+}
+
+/* Responsive - On mobile, make it full width */
+@media (max-width: 768px) {
+  .container {
+    max-width: 100% !important;
+    padding: 0 16px !important;
+  }
+  
+  .card-body {
+    padding: 32px !important;
+  }
+  
+  .card-header {
+    padding: 28px 32px !important;
+  }
+  
+  .card-header h3 {
+    font-size: 28px !important;
+  }
+  
+  .row {
+    flex-direction: column !important;
+  }
 }
 
 /* Alert Messages */
@@ -164,18 +180,6 @@ a:hover {
   background-color: #fef2f2 !important;
   color: #dc2626 !important;
   border-left: 4px solid #dc2626 !important;
-}
-
-.alert-success {
-  background-color: #ecfdf5 !important;
-  color: #059669 !important;
-  border-left: 4px solid #059669 !important;
-}
-
-.alert-info {
-  background-color: var(--primary-lighter) !important;
-  color: var(--primary-dark) !important;
-  border-left: 4px solid var(--primary-main) !important;
 }
 
 /* Navbar */
@@ -194,15 +198,9 @@ a:hover {
 
 .navbar-dark .nav-link {
   font-weight: 500 !important;
-  transition: all 0.2s ease !important;
-  margin: 0 12px !important;
   font-size: 15px !important;
   color: white !important;
-}
-
-.navbar-dark .nav-link:hover {
-  opacity: 0.8 !important;
-  color: white !important;
+  margin: 0 12px !important;
 }
 
 /* Invalid feedback */
@@ -210,7 +208,6 @@ a:hover {
   font-size: 13px !important;
   margin-top: 8px !important;
   color: #dc2626 !important;
-  display: block !important;
 }
 
 /* Checkbox */
@@ -224,46 +221,22 @@ a:hover {
 .form-check-input {
   width: 20px !important;
   height: 20px !important;
-  cursor: pointer !important;
-  margin: 0 !important;
-  padding: 0 !important;
   border-radius: 6px !important;
-}
-
-.form-check-input:checked {
-  background-color: var(--primary-main) !important;
-  border-color: var(--primary-main) !important;
-}
-
-.form-check-label {
-  cursor: pointer !important;
-  font-size: 14px !important;
-  color: #475569 !important;
-  margin: 0 !important;
 }
 
 /* Spinner */
 .spinner-border {
   width: 18px !important;
   height: 18px !important;
-  border-width: 2px !important;
 }
 
-/* Spacing utilities */
+/* Spacing */
 .mb-3 {
   margin-bottom: 24px !important;
 }
 
-.mt-3 {
-  margin-top: 16px !important;
-}
-
 .mt-4 {
   margin-top: 24px !important;
-}
-
-.mt-5 {
-  margin-top: 32px !important;
 }
 
 .text-center {
@@ -286,79 +259,9 @@ a:hover {
 .badge {
   padding: 8px 14px !important;
   border-radius: 30px !important;
-  font-size: 13px !important;
-  font-weight: 500 !important;
 }
 
-.bg-danger {
-  background-color: #dc2626 !important;
-}
-
-.bg-secondary {
-  background-color: #64748b !important;
-}
-
-/* Row and Column Fixes */
-.row {
-  display: flex !important;
-  flex-wrap: wrap !important;
-  margin: 0 -12px !important;
-}
-
-[class*="col-"] {
-  padding: 0 12px !important;
-}
-
-/* Responsive */
-@media (max-width: 640px) {
-  body {
-    padding: 16px !important;
-  }
-  
-  .container {
-    max-width: 100% !important;
-  }
-  
-  .card-body {
-    padding: 28px !important;
-  }
-  
-  .card-header {
-    padding: 28px 28px 24px !important;
-  }
-  
-  .card-header h3, .card-header h2 {
-    font-size: 26px !important;
-  }
-  
-  .row {
-    flex-direction: column !important;
-  }
-  
-  input, select, .form-control, .form-select {
-    padding: 14px 18px !important;
-  }
-  
-  button, .btn {
-    padding: 14px 24px !important;
-  }
-}
-
-/* Placeholder text */
-::placeholder {
-  color: #94a3b8 !important;
-  opacity: 1 !important;
-  font-size: 15px !important;
-}
-
-/* Horizontal rule */
-hr {
-  margin: 28px 0 !important;
-  border: none !important;
-  border-top: 2px solid #e2e8f0 !important;
-}
-
-/* Add some animation */
+/* Animation */
 .card {
   animation: fadeInUp 0.5s ease-out !important;
 }
@@ -372,4 +275,10 @@ hr {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* Placeholder */
+::placeholder {
+  color: #94a3b8 !important;
+  font-size: 15px !important;
 }
