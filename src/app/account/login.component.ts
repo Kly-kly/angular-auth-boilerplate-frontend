@@ -36,6 +36,7 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
     this.errorMessage = '';
+    this.alertService.clear();
 
     if (this.form.invalid) {
       return;
@@ -51,20 +52,22 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['/home']);
         },
         error: (error) => {
-          console.log('Login error:', error);
+          console.log('Login error status:', error.status);
+          console.log('Login error message:', error.error?.message);
+          
           this.loading = false;
           
-          // Set error message based on backend response
-          if (error.error && error.error.message) {
-            this.errorMessage = error.error.message;
-          } else if (error.status === 401) {
+          // Set error message directly
+          if (error.error?.message === 'Invalid credentials') {
             this.errorMessage = 'Invalid email or password. Please try again.';
+          } else if (error.error?.message === 'Please verify your email first') {
+            this.errorMessage = 'Please verify your email address before logging in.';
           } else {
             this.errorMessage = 'Login failed. Please try again.';
           }
           
-          // Also show via alert service
-          this.alertService.error(this.errorMessage);
+          // Force Angular to update the view
+          setTimeout(() => {}, 0);
         }
       });
   }
