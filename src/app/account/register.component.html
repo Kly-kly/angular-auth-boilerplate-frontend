@@ -1,68 +1,82 @@
-<div class="card-body">
-  <h3 class="card-title text-center mb-4">Register</h3>
-  <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <div class="row">
-      <div class="col-md-3 mb-3">
-        <label class="form-label">Title</label>
-        <select formControlName="title" class="form-select" [ngClass]="{'is-invalid': submitted && f['title'].errors}">
-          <option value="">Select</option>
-          <option value="Mr">Mr</option>
-          <option value="Mrs">Mrs</option>
-          <option value="Miss">Miss</option>
-          <option value="Ms">Ms</option>
-        </select>
-        <div *ngIf="submitted && f['title'].errors" class="invalid-feedback">Required</div>
-      </div>
-      <div class="col-md-4 mb-3">
-        <label class="form-label">First Name</label>
-        <input type="text" formControlName="firstName" class="form-control" [ngClass]="{'is-invalid': submitted && f['firstName'].errors}">
-        <div *ngIf="submitted && f['firstName'].errors" class="invalid-feedback">Required</div>
-      </div>
-      <div class="col-md-5 mb-3">
-        <label class="form-label">Last Name</label>
-        <input type="text" formControlName="lastName" class="form-control" [ngClass]="{'is-invalid': submitted && f['lastName'].errors}">
-        <div *ngIf="submitted && f['lastName'].errors" class="invalid-feedback">Required</div>
-      </div>
-    </div>
-    <div class="mb-3">
-      <label class="form-label">Email</label>
-      <input type="email" formControlName="email" class="form-control" [ngClass]="{'is-invalid': submitted && f['email'].errors}">
-      <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
-        <div *ngIf="f['email'].errors['required']">Required</div>
-        <div *ngIf="f['email'].errors['email']">Valid email required</div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-6 mb-3">
-        <label class="form-label">Password</label>
-        <input type="password" formControlName="password" class="form-control" [ngClass]="{'is-invalid': submitted && f['password'].errors}">
-        <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
-          <div *ngIf="f['password'].errors['required']">Required</div>
-          <div *ngIf="f['password'].errors['minlength']">Minimum 6 characters</div>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow">
+        <div class="card-header text-center">
+          <h3 class="mb-0">📝 Create Account</h3>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <div class="row">
+              <div class="col-md-3 mb-3">
+                <label class="form-label">Title</label>
+                <select formControlName="title" class="form-select" [class.is-invalid]="submitted && f['title'].invalid">
+                  <option value="">Select</option>
+                  <option value="Mr">Mr</option>
+                  <option value="Mrs">Mrs</option>
+                  <option value="Miss">Miss</option>
+                  <option value="Ms">Ms</option>
+                </select>
+                <div class="invalid-feedback" *ngIf="submitted && f['title'].invalid">Title is required</div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <label class="form-label">First Name</label>
+                <input type="text" formControlName="firstName" class="form-control" [class.is-invalid]="submitted && f['firstName'].invalid" placeholder="First name">
+                <div class="invalid-feedback" *ngIf="submitted && f['firstName'].invalid">First Name is required</div>
+              </div>
+              <div class="col-md-5 mb-3">
+                <label class="form-label">Last Name</label>
+                <input type="text" formControlName="lastName" class="form-control" [class.is-invalid]="submitted && f['lastName'].invalid" placeholder="Last name">
+                <div class="invalid-feedback" *ngIf="submitted && f['lastName'].invalid">Last Name is required</div>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Email Address</label>
+              <input type="email" formControlName="email" class="form-control" [class.is-invalid]="submitted && f['email'].invalid" placeholder="Enter your email">
+              <div class="invalid-feedback" *ngIf="submitted && f['email'].invalid">
+                <span *ngIf="f['email'].errors?.['required']">Email is required</span>
+                <span *ngIf="f['email'].errors?.['email']">Valid email required</span>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Password</label>
+              <input type="password" formControlName="password" class="form-control" [class.is-invalid]="submitted && f['password'].invalid" placeholder="Create password">
+              <div class="invalid-feedback" *ngIf="submitted && f['password'].invalid">
+                <span *ngIf="f['password'].errors?.['required']">Password is required</span>
+                <span *ngIf="f['password'].errors?.['minlength']">Must be at least 6 characters</span>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Confirm Password</label>
+              <input type="password" formControlName="confirmPassword" class="form-control" [class.is-invalid]="submitted && f['confirmPassword'].invalid" placeholder="Confirm password">
+              <div class="invalid-feedback" *ngIf="submitted && f['confirmPassword'].invalid">
+                <span *ngIf="f['confirmPassword'].errors?.['required']">Please confirm your password</span>
+                <span *ngIf="f['confirmPassword'].errors?.['mustMatch']">Passwords do not match</span>
+              </div>
+            </div>
+
+            <div class="mb-3 form-check">
+              <input type="checkbox" formControlName="acceptTerms" class="form-check-input" [class.is-invalid]="submitted && f['acceptTerms'].invalid">
+              <label class="form-check-label">I accept the Terms and Conditions</label>
+              <div class="invalid-feedback" *ngIf="submitted && f['acceptTerms'].invalid">You must accept terms</div>
+            </div>
+
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary" [disabled]="loading">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+                Create Account
+              </button>
+            </div>
+
+            <div class="text-center mt-4">
+              <a routerLink="/account/login">Already have an account? Sign In</a>
+            </div>
+          </form>
         </div>
       </div>
-      <div class="col-md-6 mb-3">
-        <label class="form-label">Confirm Password</label>
-        <input type="password" formControlName="confirmPassword" class="form-control" [ngClass]="{'is-invalid': submitted && f['confirmPassword'].errors}">
-        <div *ngIf="submitted && f['confirmPassword'].errors" class="invalid-feedback">
-          <div *ngIf="f['confirmPassword'].errors['required']">Required</div>
-          <div *ngIf="f['confirmPassword'].errors['mustMatch']">Passwords must match</div>
-        </div>
-      </div>
     </div>
-    <div class="mb-3 form-check">
-      <input type="checkbox" formControlName="acceptTerms" class="form-check-input" [ngClass]="{'is-invalid': submitted && f['acceptTerms'].errors}">
-      <label class="form-check-label">I accept the Terms and Conditions</label>
-      <div *ngIf="submitted && f['acceptTerms'].errors" class="invalid-feedback">You must accept terms</div>
-    </div>
-    <div class="d-grid">
-      <button type="submit" class="btn btn-success" [disabled]="loading">
-        <span *ngIf="loading" class="spinner-border spinner-border-sm me-1"></span>
-        Register
-      </button>
-    </div>
-    <div class="text-center mt-3">
-      Already have an account? <a routerLink="../login">Login</a>
-    </div>
-  </form>
+  </div>
 </div>
