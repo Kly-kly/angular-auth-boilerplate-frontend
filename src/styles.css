@@ -6,8 +6,8 @@
   --primary-lighter: #e3f2fd;
   --text-dark: #0d47a1;
   --text-light: #ffffff;
-  --card-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.2);
-  --input-border: #e0e0e0;
+  --card-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  --input-border: #e2e8f0;
   --input-focus: #1565c0;
 }
 
@@ -24,17 +24,17 @@ body {
   padding: 40px 20px;
 }
 
-/* Main Container */
+/* Main Container - Make it wider */
 .container {
-  max-width: 500px !important;
+  max-width: 560px !important;
   margin: 0 auto !important;
   width: 100% !important;
 }
 
-/* Card Styles */
+/* Card Styles - Larger and more modern */
 .card {
   border: none !important;
-  border-radius: 24px !important;
+  border-radius: 32px !important;
   box-shadow: var(--card-shadow) !important;
   overflow: hidden !important;
   width: 100% !important;
@@ -44,7 +44,7 @@ body {
 .card-header {
   background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-main) 100%) !important;
   color: var(--text-light) !important;
-  padding: 32px 32px 28px !important;
+  padding: 40px 40px 32px !important;
   border-bottom: none !important;
   text-align: center !important;
 }
@@ -52,28 +52,28 @@ body {
 .card-header h3, .card-header h2, .card-header h1 {
   margin: 0 !important;
   font-weight: 700 !important;
-  font-size: 28px !important;
+  font-size: 32px !important;
   letter-spacing: -0.5px !important;
   color: white !important;
 }
 
 .card-header p {
-  margin: 8px 0 0 !important;
+  margin: 12px 0 0 !important;
   opacity: 0.9 !important;
-  font-size: 14px !important;
+  font-size: 15px !important;
   color: white !important;
 }
 
 .card-body {
-  padding: 32px !important;
+  padding: 40px !important;
 }
 
-/* Form Controls - Global styling for all inputs, selects, textareas */
+/* Form Controls - Larger padding */
 input, select, textarea, .form-control, .form-select {
   width: 100% !important;
-  border: 1.5px solid var(--input-border) !important;
-  border-radius: 12px !important;
-  padding: 14px 16px !important;
+  border: 2px solid var(--input-border) !important;
+  border-radius: 16px !important;
+  padding: 16px 20px !important;
   font-size: 16px !important;
   transition: all 0.2s ease !important;
   display: block !important;
@@ -82,25 +82,25 @@ input, select, textarea, .form-control, .form-select {
 
 input:focus, select:focus, textarea:focus, .form-control:focus, .form-select:focus {
   border-color: var(--input-focus) !important;
-  box-shadow: 0 0 0 3px rgba(21, 101, 192, 0.1) !important;
+  box-shadow: 0 0 0 4px rgba(21, 101, 192, 0.1) !important;
   outline: none !important;
 }
 
-/* Labels */
+/* Labels - Larger */
 label, .form-label {
   font-weight: 600 !important;
-  color: #333 !important;
-  margin-bottom: 8px !important;
+  color: #1e293b !important;
+  margin-bottom: 10px !important;
   display: block !important;
-  font-size: 14px !important;
+  font-size: 15px !important;
 }
 
-/* Buttons - Global styling */
+/* Buttons - Larger and modern */
 button, .btn, .btn-primary {
   background: linear-gradient(135deg, var(--primary-main) 0%, var(--primary-light) 100%) !important;
   border: none !important;
-  border-radius: 12px !important;
-  padding: 14px 24px !important;
+  border-radius: 16px !important;
+  padding: 16px 28px !important;
   font-weight: 600 !important;
   font-size: 16px !important;
   transition: all 0.2s ease !important;
@@ -111,8 +111,8 @@ button, .btn, .btn-primary {
 
 button:hover, .btn:hover, .btn-primary:hover {
   background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-main) 100%) !important;
-  transform: translateY(-1px) !important;
-  box-shadow: 0 4px 12px rgba(13, 71, 161, 0.3) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 20px rgba(13, 71, 161, 0.3) !important;
 }
 
 button:active, .btn:active {
@@ -120,9 +120,21 @@ button:active, .btn:active {
 }
 
 button:disabled, .btn:disabled {
-  background: #b0bec5 !important;
+  background: #94a3b8 !important;
   transform: none !important;
   cursor: not-allowed !important;
+}
+
+/* Secondary button */
+.btn-secondary {
+  background: #f1f5f9 !important;
+  color: #475569 !important;
+}
+
+.btn-secondary:hover {
+  background: #e2e8f0 !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
 }
 
 /* Links */
@@ -141,9 +153,9 @@ a:hover {
 
 /* Alert Messages */
 .alert {
-  border-radius: 12px !important;
+  border-radius: 16px !important;
   border: none !important;
-  padding: 14px 16px !important;
+  padding: 16px 20px !important;
   margin-bottom: 24px !important;
   font-size: 14px !important;
 }
@@ -169,22 +181,22 @@ a:hover {
 /* Navbar */
 .navbar-dark.bg-dark {
   background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-main) 100%) !important;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
-  padding: 12px 24px !important;
-  margin-bottom: 24px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+  padding: 16px 32px !important;
+  margin-bottom: 32px !important;
 }
 
 .navbar-dark .navbar-brand {
   font-weight: 700 !important;
-  font-size: 20px !important;
+  font-size: 22px !important;
   color: white !important;
 }
 
 .navbar-dark .nav-link {
   font-weight: 500 !important;
   transition: all 0.2s ease !important;
-  margin: 0 8px !important;
-  font-size: 14px !important;
+  margin: 0 12px !important;
+  font-size: 15px !important;
   color: white !important;
 }
 
@@ -195,8 +207,8 @@ a:hover {
 
 /* Invalid feedback */
 .invalid-feedback {
-  font-size: 12px !important;
-  margin-top: 6px !important;
+  font-size: 13px !important;
+  margin-top: 8px !important;
   color: #dc2626 !important;
   display: block !important;
 }
@@ -205,16 +217,17 @@ a:hover {
 .form-check {
   display: flex !important;
   align-items: center !important;
-  gap: 10px !important;
-  margin: 20px 0 !important;
+  gap: 12px !important;
+  margin: 24px 0 !important;
 }
 
 .form-check-input {
-  width: 18px !important;
-  height: 18px !important;
+  width: 20px !important;
+  height: 20px !important;
   cursor: pointer !important;
   margin: 0 !important;
   padding: 0 !important;
+  border-radius: 6px !important;
 }
 
 .form-check-input:checked {
@@ -225,20 +238,20 @@ a:hover {
 .form-check-label {
   cursor: pointer !important;
   font-size: 14px !important;
-  color: #555 !important;
+  color: #475569 !important;
   margin: 0 !important;
 }
 
 /* Spinner */
 .spinner-border {
-  width: 16px !important;
-  height: 16px !important;
+  width: 18px !important;
+  height: 18px !important;
   border-width: 2px !important;
 }
 
 /* Spacing utilities */
 .mb-3 {
-  margin-bottom: 20px !important;
+  margin-bottom: 24px !important;
 }
 
 .mt-3 {
@@ -266,14 +279,14 @@ a:hover {
 }
 
 .gap-2 {
-  gap: 8px !important;
+  gap: 12px !important;
 }
 
 /* Badge */
 .badge {
-  padding: 6px 12px !important;
-  border-radius: 20px !important;
-  font-size: 12px !important;
+  padding: 8px 14px !important;
+  border-radius: 30px !important;
+  font-size: 13px !important;
   font-weight: 500 !important;
 }
 
@@ -282,36 +295,40 @@ a:hover {
 }
 
 .bg-secondary {
-  background-color: #6c757d !important;
+  background-color: #64748b !important;
 }
 
 /* Row and Column Fixes */
 .row {
   display: flex !important;
   flex-wrap: wrap !important;
-  margin: 0 -8px !important;
+  margin: 0 -12px !important;
 }
 
 [class*="col-"] {
-  padding: 0 8px !important;
+  padding: 0 12px !important;
 }
 
 /* Responsive */
-@media (max-width: 576px) {
+@media (max-width: 640px) {
   body {
-    padding: 20px 16px !important;
+    padding: 16px !important;
+  }
+  
+  .container {
+    max-width: 100% !important;
   }
   
   .card-body {
-    padding: 24px !important;
+    padding: 28px !important;
   }
   
   .card-header {
-    padding: 24px !important;
+    padding: 28px 28px 24px !important;
   }
   
   .card-header h3, .card-header h2 {
-    font-size: 24px !important;
+    font-size: 26px !important;
   }
   
   .row {
@@ -319,20 +336,40 @@ a:hover {
   }
   
   input, select, .form-control, .form-select {
-    padding: 12px 14px !important;
+    padding: 14px 18px !important;
+  }
+  
+  button, .btn {
+    padding: 14px 24px !important;
   }
 }
 
 /* Placeholder text */
 ::placeholder {
-  color: #9e9e9e !important;
+  color: #94a3b8 !important;
   opacity: 1 !important;
-  font-size: 14px !important;
+  font-size: 15px !important;
 }
 
 /* Horizontal rule */
 hr {
-  margin: 24px 0 !important;
+  margin: 28px 0 !important;
   border: none !important;
-  border-top: 1px solid #e0e0e0 !important;
+  border-top: 2px solid #e2e8f0 !important;
+}
+
+/* Add some animation */
+.card {
+  animation: fadeInUp 0.5s ease-out !important;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
