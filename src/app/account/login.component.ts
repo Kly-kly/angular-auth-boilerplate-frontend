@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
     private accountService: AccountService,
     private alertService: AlertService,
     private router: Router,
-    private cdr: ChangeDetectorRef  // ✅ Add this
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -38,30 +38,27 @@ export class LoginComponent implements OnInit {
     this.submitted = true;
     this.errorMessage = '';
     this.alertService.clear();
-    this.cdr.detectChanges();  // ✅ Force update
+    this.cdr.detectChanges();
 
     if (this.form.invalid) {
       return;
     }
 
     this.loading = true;
-    this.cdr.detectChanges();  // ✅ Force update
+    this.cdr.detectChanges();
 
     this.accountService.login(this.f['email'].value, this.f['password'].value)
       .subscribe({
         next: (response) => {
           console.log('Login success:', response);
           this.loading = false;
-          this.cdr.detectChanges();  // ✅ Force update
+          this.cdr.detectChanges();
           this.router.navigate(['/home']);
         },
         error: (error) => {
-          console.log('Login error status:', error.status);
-          console.log('Login error message:', error.error?.message);
-          
+          console.log('Login error:', error);
           this.loading = false;
           
-          // Set error message
           if (error.error?.message === 'Invalid credentials') {
             this.errorMessage = 'Invalid email or password. Please try again.';
           } else if (error.error?.message === 'Please verify your email first') {
@@ -70,8 +67,7 @@ export class LoginComponent implements OnInit {
             this.errorMessage = 'Login failed. Please try again.';
           }
           
-          console.log('Error message set to:', this.errorMessage);
-          this.cdr.detectChanges();  // ✅ Force Angular to update the view
+          this.cdr.detectChanges();
         }
       });
   }
