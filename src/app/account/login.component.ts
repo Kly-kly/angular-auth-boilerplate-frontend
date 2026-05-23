@@ -15,6 +15,7 @@ export class LoginComponent implements OnInit {
   form!: FormGroup;
   loading = false;
   submitted = false;
+  errorMessage = '';
 
   constructor(
     private formBuilder: FormBuilder,
@@ -32,8 +33,13 @@ export class LoginComponent implements OnInit {
 
   get f() { return this.form.controls; }
 
+  clearError() {
+    this.errorMessage = '';
+  }
+
   onSubmit() {
     this.submitted = true;
+    this.errorMessage = '';
     this.alertService.clear();
 
     if (this.form.invalid) {
@@ -41,46 +47,39 @@ export class LoginComponent implements OnInit {
     }
 
     this.loading = true;
-    
+
     this.accountService.login(this.f['email'].value, this.f['password'].value)
       .subscribe({
         next: (response) => {
           console.log('Login successful:', response);
+          this.loading = false;
           this.router.navigate(['/home']);
         },
-        error: (err) => {
-          console.log('=== LOGIN ERROR DEBUG ===');
-          console.log('Status:', err.status);
-          console.log('Error object:', err);
-          console.log('Error error property:', err.error);
+        error: (error) => {
+          console.error('Login error details:', error);
           
-          // Stop loading
+          // IMPORTANT: Stop loading immediately
           this.loading = false;
           
-          // Extract error message
-          let errorMessage = 'Login failed. Please try again.';
-          
-          if (err.status === 401) {
-            // Check if error.error has a message property
-            if (err.error && err.error.message) {
-              errorMessage = err.error.message;
-              // Make it more user-friendly
-              if (errorMessage === 'Invalid credentials') {
-                errorMessage = 'Invalid email or password. Please check your credentials and try again.';
-              }
+          // Set user-friendly error message
+          if (error.status === 401) {
+            if (error.error?.message === 'Invalid credentials') {
+              this.errorMessage = 'Invalid email or password. Please try again.';
+            } else if (error.error?.message === 'Please verify your email first') {
+              this.errorMessage = 'Please verify your email address before logging in. Check your inbox for the verification link.';
             } else {
-              errorMessage = 'Invalid email or password. Please try again.';
+              this.errorMessage = error.error?.message || 'Invalid email or password. Please try again.';
             }
-          } else if (err.status === 0) {
-            errorMessage = 'Cannot connect to server. Please check your internet connection.';
-          } else if (err.error && typeof err.error === 'string') {
-            errorMessage = err.error;
-          } else if (err.message) {
-            errorMessage = err.message;
+          } else if (error.status === 0) {
+            this.errorMessage = 'Cannot connect to server. Please check your internet connection.';
+          } else {
+            this.errorMessage = error.error?.message || 'Login failed. Please try again.';
           }
           
-          console.log('Showing error message:', errorMessage);
-          this.alertService.error(errorMessage);
+          // Force change detection if needed
+          setTimeout(() => {
+            this.loading = false;
+          }, 0);
         }
       });
   }

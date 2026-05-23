@@ -6,6 +6,13 @@
           <h3 class="mb-0">Login</h3>
         </div>
         <div class="card-body">
+          <!-- Display error message here -->
+          <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            <strong>Error!</strong> {{ errorMessage }}
+            <button type="button" class="btn-close" (click)="clearError()" aria-label="Close"></button>
+          </div>
+
           <form [formGroup]="form" (ngSubmit)="onSubmit()">
             <div class="mb-3">
               <label class="form-label">Email</label>
@@ -21,6 +28,7 @@
                 <span *ngIf="f['email'].errors?.['email']">Please enter a valid email address</span>
               </div>
             </div>
+
             <div class="mb-3">
               <label class="form-label">Password</label>
               <input 
@@ -34,12 +42,14 @@
                 <span *ngIf="f['password'].errors?.['required']">Password is required</span>
               </div>
             </div>
-            <div class="d-grid">
-              <button type="submit" class="btn btn-primary" [disabled]="loading">
-                <span *ngIf="loading" class="spinner-border spinner-border-sm me-1"></span>
+
+            <div class="d-grid gap-2">
+              <button type="submit" class="btn btn-primary btn-lg" [disabled]="loading">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
                 Login
               </button>
             </div>
+
             <div class="text-center mt-3">
               <a routerLink="/account/register" class="text-decoration-none me-3">Register</a>
               <a routerLink="/account/forgot-password" class="text-decoration-none">Forgot Password?</a>
