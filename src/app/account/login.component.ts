@@ -33,10 +33,6 @@ export class LoginComponent implements OnInit {
 
   get f() { return this.form.controls; }
 
-  clearError() {
-    this.errorMessage = '';
-  }
-
   onSubmit() {
     this.submitted = true;
     this.errorMessage = '';
@@ -56,30 +52,15 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['/home']);
         },
         error: (error) => {
-          console.error('Login error details:', error);
-          
-          // IMPORTANT: Stop loading immediately
+          console.error('Login error:', error);
           this.loading = false;
           
-          // Set user-friendly error message
+          // Simple error message
           if (error.status === 401) {
-            if (error.error?.message === 'Invalid credentials') {
-              this.errorMessage = 'Invalid email or password. Please try again.';
-            } else if (error.error?.message === 'Please verify your email first') {
-              this.errorMessage = 'Please verify your email address before logging in. Check your inbox for the verification link.';
-            } else {
-              this.errorMessage = error.error?.message || 'Invalid email or password. Please try again.';
-            }
-          } else if (error.status === 0) {
-            this.errorMessage = 'Cannot connect to server. Please check your internet connection.';
+            this.errorMessage = '❌ Invalid email or password. Please try again.';
           } else {
-            this.errorMessage = error.error?.message || 'Login failed. Please try again.';
+            this.errorMessage = '❌ Login failed. Please try again.';
           }
-          
-          // Force change detection if needed
-          setTimeout(() => {
-            this.loading = false;
-          }, 0);
         }
       });
   }
