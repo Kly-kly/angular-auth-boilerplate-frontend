@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
@@ -21,7 +21,8 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private accountService: AccountService,
     private alertService: AlertService,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef  // ✅ Add this
   ) {}
 
   ngOnInit() {
@@ -37,18 +38,21 @@ export class LoginComponent implements OnInit {
     this.submitted = true;
     this.errorMessage = '';
     this.alertService.clear();
+    this.cdr.detectChanges();  // ✅ Force update
 
     if (this.form.invalid) {
       return;
     }
 
     this.loading = true;
+    this.cdr.detectChanges();  // ✅ Force update
 
     this.accountService.login(this.f['email'].value, this.f['password'].value)
       .subscribe({
         next: (response) => {
           console.log('Login success:', response);
           this.loading = false;
+          this.cdr.detectChanges();  // ✅ Force update
           this.router.navigate(['/home']);
         },
         error: (error) => {
@@ -57,7 +61,7 @@ export class LoginComponent implements OnInit {
           
           this.loading = false;
           
-          // Set error message directly
+          // Set error message
           if (error.error?.message === 'Invalid credentials') {
             this.errorMessage = 'Invalid email or password. Please try again.';
           } else if (error.error?.message === 'Please verify your email first') {
@@ -66,8 +70,8 @@ export class LoginComponent implements OnInit {
             this.errorMessage = 'Login failed. Please try again.';
           }
           
-          // Force Angular to update the view
-          setTimeout(() => {}, 0);
+          console.log('Error message set to:', this.errorMessage);
+          this.cdr.detectChanges();  // ✅ Force Angular to update the view
         }
       });
   }

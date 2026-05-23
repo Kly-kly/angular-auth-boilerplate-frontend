@@ -6,6 +6,11 @@
           <h3 class="mb-0">Login</h3>
         </div>
         <div class="card-body">
+          <!-- Debug indicator -->
+          <div class="alert alert-info small text-center">
+            Debug: errorMessage = "{{errorMessage}}"
+          </div>
+          
           <!-- Direct error message display -->
           <div *ngIf="errorMessage" class="alert alert-danger text-center" role="alert" style="font-size: 16px; padding: 12px;">
             <strong>⚠️ Error!</strong> {{ errorMessage }}
